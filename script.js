@@ -1,21 +1,28 @@
 let cart = [];
 let total = 0;
 
-function addToCart(productName, price) {
-  cart.push({ name: productName, price: price });
+function addToCart(name, price) {
+  cart.push({ name, price });
   total += price;
   updateCart();
 }
 
-function updateCart() {
-  const cartList = document.getElementById('cart-items');
-  cartList.innerHTML = '';
+function removeFromCart(index) {
+  total -= cart[index].price;
+  cart.splice(index, 1);
+  updateCart();
+}
 
-  cart.forEach(item => {
-    const li = document.createElement('li');
-    li.textContent = `${item.name} - ${item.price.toLocaleString()}đ`;
+function updateCart() {
+  const cartList = document.getElementById("cart-items");
+  cartList.innerHTML = "";
+
+  cart.forEach((item, index) => {
+    const li = document.createElement("li");
+    li.innerHTML = `${item.name} - ${item.price.toLocaleString()}đ 
+      <button class="remove-btn" onclick="removeFromCart(${index})">X</button>`;
     cartList.appendChild(li);
   });
 
-  document.getElementById('total').textContent = `Tổng: ${total.toLocaleString()}đ`;
+  document.getElementById("total").textContent = `Tổng: ${total.toLocaleString()}đ`;
 }
